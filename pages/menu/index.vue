@@ -1,7 +1,9 @@
 <template>
   <div class="bg-gray-50 text-gray-900 py-10">
     <div class="container mx-auto px-4">
-      <h1 class="text-5xl font-bold mb-6 text-center text-gray-900 uppercase">
+      <h1
+        class="text-5xl font-bold mb-6 text-center uppercase text-gray-800 [text-shadow:1px_1px_2px_var(--tw-shadow-color)] shadow-gray-500"
+      >
         Carta
       </h1>
 

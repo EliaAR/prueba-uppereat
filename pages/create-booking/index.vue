@@ -1,8 +1,10 @@
 <template>
   <section
-    class="relative py-7 px-10 rounded-lg border-solid border-2 border-slate-900 bg-white"
+    class="relative py-7 px-10 rounded-lg border-solid border-2 border-slate-900 bg-white shadow-lg"
   >
-    <h6 class="text-3xl font-bold text-gray-700 text-center">
+    <h6
+      class="text-3xl font-bold text-center text-gray-700 [text-shadow:1px_1px_2px_var(--tw-shadow-color)] shadow-gray-500"
+    >
       Formulario de Reservas
     </h6>
     <form @submit.prevent="save" class="mt-4">
