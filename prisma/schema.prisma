@@ -8,10 +8,18 @@ datasource db {
     directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
+enum Status {
+    PENDING
+    CONFIRMED
+    CANCELLED
+    COMPLETED
+}
+
 model Booking {
     id               String   @id @default(cuid())
     user_name        String
     amount_diners    Int
     booking_datetime DateTime
-    table_number     Int
+    terrace          Boolean
+    status           Status   @default(PENDING)
 }

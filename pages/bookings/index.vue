@@ -7,20 +7,22 @@
 
   <section class="rounded-lg bg-white shadow-md mb-5">
     <article
-      class="grid grid-cols-5 bg-gray-200 p-4 text-left text-sm font-semibold uppercase text-gray-600"
+      class="grid grid-cols-6 bg-gray-200 p-4 text-left text-sm font-semibold uppercase text-gray-600"
     >
-      <p>Nombre del Cliente</p>
-      <p>Número de Personas</p>
+      <p>Nombre</p>
+      <p>Nº Personas</p>
       <p>Fecha y Hora</p>
       <p>Terraza</p>
       <p>Acciones</p>
+      <p>Nº Reserva</p>
     </article>
 
-    <article class="grid grid-cols-5 border-b p-4 text-sm text-gray-800">
+    <article class="grid grid-cols-6 border-b p-4 text-sm text-gray-800">
       <p>John Doe</p>
       <p>4</p>
       <p>2023-11-30 19:30</p>
       <p>Sí</p>
+      <p>789</p>
 
       <div class="flex items-center space-x-3">
         <article class="relative">
