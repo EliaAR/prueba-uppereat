@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
   if (!booking) {
     return {
       statusCode: 500,
-      message: "Failed to create booking",
+      message: "Fallo al crear la reserva",
     };
   }
 

@@ -1,6 +1,8 @@
 <template>
-  <div class="bg-gray-50 text-gray-900 py-10">
-    <div class="container mx-auto px-4">
+  <main
+    class="flex items-center justify-center min-h-[calc(100vh-208px)] bg-slate-100"
+  >
+    <div class="w-4/5 px-4 py-10 bg-gray-50 text-gray-900">
       <h1
         class="text-5xl font-bold mb-6 text-center uppercase text-gray-800 [text-shadow:1px_1px_2px_var(--tw-shadow-color)] shadow-gray-500"
       >
@@ -11,7 +13,7 @@
         <h2 class="text-2xl font-semibold mb-4 underline decoration-blue-900">
           Entrantes
         </h2>
-        <article class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <article class="grid grid-cols-3 xs:grid-cols-1 gap-4">
           <article
             class="bg-gray-300 p-4 rounded-lg shadow-lg hover:shadow-2xl transition h-max"
           >
@@ -50,7 +52,7 @@
         <h2 class="text-2xl font-semibold mb-4 underline decoration-blue-900">
           Platos Principales
         </h2>
-        <article class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <article class="grid grid-cols-3 xs:grid-cols-1 gap-4">
           <article
             class="bg-gray-300 p-4 rounded-lg shadow-lg hover:shadow-2xl transition h-max"
           >
@@ -87,7 +89,7 @@
         <h2 class="text-2xl font-semibold mb-4 underline decoration-blue-900">
           Postres
         </h2>
-        <article class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <article class="grid grid-cols-3 xs:grid-cols-1 gap-4">
           <article
             class="bg-gray-300 p-4 rounded-lg shadow-lg hover:shadow-2xl transition h-max"
           >
@@ -120,5 +122,5 @@
         </article>
       </section>
     </div>
-  </div>
+  </main>
 </template>

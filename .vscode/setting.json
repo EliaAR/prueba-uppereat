@@ -1,0 +1,16 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "explorer.compactFolders": false,
+  "editor.padding.top": 10,
+  "editor.padding.bottom": 10,
+  "editor.lineHeight": 22,
+  "editor.scrollbar.verticalScrollbarSize": 20,
+  "workbench.list.horizontalScrolling": true,
+  "editor.smoothScrolling": true,
+  "workbench.list.smoothScrolling": true
+}

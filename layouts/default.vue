@@ -42,17 +42,13 @@
       </nav>
     </header>
 
-    <main
-      class="flex flex-col justify-center items-center min-h-[calc(100vh-217px)] bg-slate-100"
-    >
-      <slot />
-    </main>
+    <slot />
 
     <footer
-      class="footer-container w-full flex items-center justify-center p-4 flex-col bg-gray-700"
+      class="flex flex-col items-center justify-evenly w-full min-h-[160px] bg-gray-700"
     >
       <section
-        class="social-icon flex items-center mt-8 w-48 justify-around text-green-400"
+        class="social-icon flex items-center justify-around gap-x-6 text-green-400"
       >
         <article class="twitter">
           <a href="#">
@@ -128,8 +124,10 @@
         </article>
       </section>
 
-      <section class="links mb-8 w-2/4 mt-8">
-        <ul class="flex items-end justify-between">
+      <section class="links">
+        <ul
+          class="flex items-end justify-between xs:items-center xs:flex-col gap-x-12"
+        >
           <li class="text-gray-400 text-base">
             <a href="#">Aviso legal</a>
           </li>
