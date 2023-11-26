@@ -81,7 +81,7 @@
           <button
             type="submit"
             :disabled="!name || !numberOfPeople || !reservationDate"
-            class="bg-sky-700 hover:bg-sky-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            class="bg-sky-700 hover:bg-sky-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-gray-500"
           >
             Reservar
           </button>

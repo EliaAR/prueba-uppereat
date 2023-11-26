@@ -1,9 +1,9 @@
 import prisma from "~/server/lib/prisma";
 import { Prisma } from "@prisma/client";
-import { type GetBookingDTO, type BookingModel } from "~/types/bookings";
+import { type GetManyBookingsDTO, type BookingModel } from "~/types/bookings";
 
 async function getBookings(
-  data: GetBookingDTO
+  data: GetManyBookingsDTO
 ): Promise<BookingModel[] | null> {
   const ANDarray: Prisma.BookingWhereInput[] = [];
   if (data.name) {
@@ -15,9 +15,14 @@ async function getBookings(
     });
   }
   if (data.date) {
+    const startOfDay = new Date(data.date);
+    startOfDay.setHours(0, 0, 0, 0);
+    const endOfDay = new Date(data.date);
+    endOfDay.setHours(23, 59, 59, 999);
     ANDarray.push({
       booking_datetime: {
-        equals: data.date,
+        gte: startOfDay,
+        lte: endOfDay,
       },
     });
   }

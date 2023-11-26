@@ -13,8 +13,10 @@
       </div>
     </section>
 
-    <section class="grow-[0.4] flex justify-around items-end pb-2.5">
-      <article class="bg-slate-200 px-5 py-3 rounded-md">
+    <section
+      class="grow-[0.4] flex xs:flex-col justify-evenly xs:justify-end xs:items-center items-end pb-2.5"
+    >
+      <article class="bg-slate-200 px-5 py-3 xs:mb-2.5 rounded-md">
         <p class="text-lg">Calle Central s/n</p>
         <p class="text-sm">Tlf 665 55 55 55</p>
         <p class="text-sm">info@lapruebita.es</p>
@@ -26,7 +28,7 @@
         <p class="scheduleTimeOne">Cerrado</p>
 
         <p class="scheduleDateTwo">Martes a Domingo</p>
-        <p class="scheduleTimeTwo">De 12:00 a 16:00 y de 19:00 a 23:00</p>
+        <p class="scheduleTimeTwo">12:00-16:00 y 19:00-23:00</p>
       </article>
     </section>
   </main>
@@ -63,8 +65,11 @@
   font-weight: 400;
 }
 @media screen and (max-width: 480px) {
-  .scheduleContainer {
-    grid-template-rows: repeat(3, 1rem);
+  .scheduleDateOne,
+  .scheduleTimeOne,
+  .scheduleDateTwo,
+  .scheduleTimeTwo {
+    font-size: 0.875rem;
   }
 }
 </style>

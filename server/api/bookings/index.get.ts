@@ -1,4 +1,4 @@
-import { getBookings } from "~/server/services/bookings/get";
+import { getBookings } from "~/server/services/bookings/getMany";
 
 export default defineEventHandler(async (event) => {
   const data = getQuery(event);
