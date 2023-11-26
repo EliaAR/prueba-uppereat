@@ -89,10 +89,13 @@
               <p class="justify-self-center">{{ booking.terrace }}</p>
               <p class="justify-self-center">{{ booking.status }}</p>
 
-              <article class="flex justify-center justify-self-center gap-x-2">
+              <article
+                class="relative flex justify-center justify-self-center gap-x-2"
+              >
                 <button
                   type="button"
                   title="Borrar"
+                  @click="showTooltip = booking.id"
                   class="focus:shadow-outline rounded bg-red-500 px-3 py-1 font-bold text-white hover:bg-red-700 focus:outline-none text-xs"
                 >
                   <svg
@@ -110,6 +113,28 @@
                     />
                   </svg>
                 </button>
+                <article
+                  v-if="showTooltip === booking.id"
+                  class="absolute w-60 bottom-full flex flex-col gap-y-3 items-center mb-2 px-4 py-2 border border-solid border-slate-300 bg-slate-50 rounded shadow-lg"
+                >
+                  <p class="text-center font-bold">
+                    ¿Estás seguro que quieres eliminar la reserva?
+                  </p>
+                  <div class="flex w-full justify-evenly">
+                    <button
+                      @click="deleteBooking(booking.id)"
+                      class="focus:shadow-outline rounded bg-red-500 px-3 py-1 font-bold text-white hover:bg-red-700 focus:outline-none text-xs"
+                    >
+                      Borrarla
+                    </button>
+                    <button
+                      @click="showTooltip = false"
+                      class="focus:shadow-outline rounded bg-sky-700 px-3 py-1 font-bold text-white hover:bg-sky-800 focus:outline-none text-xs"
+                    >
+                      Cancelar
+                    </button>
+                  </div>
+                </article>
                 <button
                   type="button"
                   title="Editar"
@@ -153,8 +178,9 @@
 const filterName = ref("");
 const filterDate = ref("");
 const filterStatus = ref("");
+const showTooltip = ref<false | string>(false);
 
-const { data } = await useFetch("/api/bookings", {
+const { data, refresh } = await useFetch("/api/bookings", {
   query: {
     name: filterName,
     date: filterDate,
@@ -180,5 +206,13 @@ const dateOptions: Intl.DateTimeFormatOptions = {
 const bookingDate = (index: number) => {
   const transformDate = new Date(bookings.value[index].booking_datetime);
   return transformDate.toLocaleString("es-ES", dateOptions);
+};
+
+const deleteBooking = async (id: string) => {
+  await fetch(`/api/bookings/remove?id=${id}`, {
+    method: "DELETE",
+  });
+  showTooltip.value = false;
+  refresh();
 };
 </script>

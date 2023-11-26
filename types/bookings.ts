@@ -18,3 +18,7 @@ export type UpdateBookingDTO = {
   id: string;
   data: Partial<BookingModel>;
 };
+
+export type DeleteBookingDTO = {
+  id: string;
+};
