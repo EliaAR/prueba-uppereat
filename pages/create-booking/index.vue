@@ -3,18 +3,18 @@
     class="flex flex-col items-center justify-center min-h-[calc(100vh-208px)] bg-slate-100"
   >
     <section
-      class="relative py-7 px-10 rounded-lg border-solid border-2 border-slate-900 bg-white shadow-lg"
+      class="relative flex flex-col gap-y-8 py-7 px-10 rounded-lg border-solid border-2 border-slate-900 bg-white shadow-lg"
     >
       <h6
         class="text-3xl xs:text-2xl font-bold text-center text-gray-700 [text-shadow:1px_1px_2px_var(--tw-shadow-color)] shadow-gray-500"
       >
         Formulario de Reservas
       </h6>
-      <form @submit.prevent="save" class="mt-4">
-        <article class="mb-4">
+      <form @submit.prevent="save" class="flex flex-col gap-y-5">
+        <article class="flex flex-col gap-y-1">
           <label
             for="customerName"
-            class="block text-gray-700 text-sm font-bold mb-2"
+            class="block text-gray-700 text-sm font-bold"
           >
             Nombre del Cliente
           </label>
@@ -23,15 +23,15 @@
             id="customerName"
             type="text"
             required
-            placeholder="Nombre y Primer Apellido"
+            placeholder="Escribe aquí el nombre"
             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
         </article>
 
-        <article class="mb-4">
+        <article class="flex flex-col gap-y-1">
           <label
             for="numberOfPeople"
-            class="block text-gray-700 text-sm font-bold mb-2"
+            class="block text-gray-700 text-sm font-bold"
           >
             Número de Personas
           </label>
@@ -42,15 +42,15 @@
             min="1"
             max="6"
             required
-            placeholder="Ej: 4"
+            placeholder="Selecciona el número de personas"
             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
         </article>
 
-        <article class="mb-4">
+        <article class="flex flex-col gap-y-1">
           <label
             for="reservationDate"
-            class="block text-gray-700 text-sm font-bold mb-2"
+            class="block text-gray-700 text-sm font-bold"
           >
             Fecha y Hora de la Reserva
           </label>
@@ -60,12 +60,11 @@
             type="datetime-local"
             required
             :min="getCurrentDateTime()"
-            :step="1800"
             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
         </article>
 
-        <article class="mb-4 flex items-center">
+        <article class="flex items-center">
           <input
             v-model="terraceOption"
             id="terraceOption"
@@ -77,21 +76,28 @@
           </label>
         </article>
 
-        <article class="flex items-center justify-center mt-8">
+        <article class="flex flex-col items-center justify-center gap-y-3">
           <button
             type="submit"
             :disabled="!name || !numberOfPeople || !reservationDate"
-            class="bg-sky-700 hover:bg-sky-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-gray-500"
+            class="relative bg-sky-700 hover:bg-sky-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-gray-500 disabled:cursor-not-allowed"
           >
             Reservar
           </button>
+
+          <p
+            v-if="!name || !numberOfPeople || !reservationDate"
+            class="text-center text-xs text-rose-500"
+          >
+            Debes rellenar todos los campos
+          </p>
         </article>
       </form>
     </section>
 
     <NuxtLink
       to="/bookings"
-      class="flex items-center gap-x-2 mt-5 text-slate-700 hover:text-slate-800"
+      class="flex items-center gap-x-2 mt-3 p-2 text-slate-700 hover:text-slate-800"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -113,18 +119,48 @@
 
     <section
       v-if="bookingError"
-      class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-5"
+      class="relative bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mt-5"
       role="alert"
     >
-      <span class="block xs:inline">{{ bookingMessage }}</span>
+      <span class="block xs:inline pr-5">{{ bookingMessage }}</span>
+      <svg
+        @click="bookingMessage = ''"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="absolute w-6 h-6 top-3 right-0.5 cursor-pointer"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
     </section>
 
     <section
       v-if="bookingMessage && !bookingError"
-      class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mt-5"
+      class="relative bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mt-5"
       role="alert"
     >
-      <span class="block xs:inline">{{ bookingMessage }}</span>
+      <span class="block xs:inline pr-5">{{ bookingMessage }}</span>
+      <svg
+        @click="bookingMessage = ''"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="absolute w-6 h-6 top-3 right-0.5 cursor-pointer"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
     </section>
   </main>
 </template>
@@ -177,10 +213,10 @@ const save = async () => {
           reservationDate.value = "";
           terraceOption.value = false;
           bookingError.value = false;
-          bookingMessage.value = "Reserva creada correctamente";
+          bookingMessage.value = result.message;
         } else {
           bookingError.value = true;
-          bookingMessage.value = "Error al crear la reserva";
+          bookingMessage.value = result.message;
         }
       } else {
         console.error("Error:", response.status);

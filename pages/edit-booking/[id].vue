@@ -1,9 +1,9 @@
 <template>
   <main
-    class="flex flex-col items-center gap-y-5 min-h-[calc(100vh-208px)] bg-slate-100"
+    class="flex flex-col items-center min-h-[calc(100vh-208px)] bg-slate-100"
   >
     <h2
-      class="grow-[0.3] flex items-center xs:text-center text-5xl xs:text-4xl font-semibold uppercase text-gray-800 [text-shadow:1px_1px_2px_var(--tw-shadow-color)] shadow-gray-500 xs:pt-5"
+      class="grow-[0.45] flex items-center xs:text-center text-5xl xs:text-4xl font-semibold uppercase text-gray-800 [text-shadow:1px_1px_2px_var(--tw-shadow-color)] shadow-gray-500 xs:pt-5"
     >
       Reserva a editar
     </h2>
@@ -13,12 +13,12 @@
     >
       <form
         @submit.prevent="update"
-        class="rounded-lg border-solid border-2 border-slate-900 bg-white shadow-lg py-7 px-10 xs:px-6"
+        class="flex flex-col gap-y-3.5 rounded-lg border-solid border-2 border-slate-900 bg-white shadow-lg py-7 px-10 xs:px-6"
       >
-        <article class="mb-4">
+        <article class="flex flex-col gap-y-1">
           <label
             for="customerName"
-            class="block text-gray-700 text-sm font-bold mb-2"
+            class="block text-gray-700 text-base font-bold"
           >
             Nombre del Cliente
           </label>
@@ -32,10 +32,10 @@
           />
         </article>
 
-        <article class="mb-4">
+        <article class="flex flex-col gap-y-1">
           <label
             for="numberOfPeople"
-            class="block text-gray-700 text-sm font-bold mb-2"
+            class="block text-gray-700 text-base font-bold"
           >
             Número de Personas
           </label>
@@ -51,10 +51,10 @@
           />
         </article>
 
-        <article class="mb-4">
+        <article class="flex flex-col gap-y-1">
           <label
             for="reservationDate"
-            class="block text-gray-700 text-sm font-bold mb-2"
+            class="block text-gray-700 text-base font-bold"
           >
             Fecha y Hora de la Reserva
           </label>
@@ -68,11 +68,8 @@
           />
         </article>
 
-        <article class="relative justify-self-center">
-          <label
-            for="status"
-            class="block text-gray-700 text-sm font-bold mb-2"
-          >
+        <article class="relative justify-self-center flex flex-col gap-y-1">
+          <label for="status" class="block text-gray-700 text-base font-bold">
             Estado de la Reserva
           </label>
           <select
@@ -110,20 +107,27 @@
           </label>
         </article>
 
-        <article class="flex items-center justify-center mt-8">
+        <article class="flex flex-col items-center justify-center gap-y-3">
           <button
             type="submit"
             :disabled="!name || !numberOfPeople || !reservationDate"
-            class="bg-sky-700 hover:bg-sky-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-gray-500"
+            class="bg-sky-700 hover:bg-sky-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-gray-500 disabled:cursor-not-allowed"
           >
             Editar reserva
           </button>
+
+          <p
+            v-if="!name || !numberOfPeople || !reservationDate"
+            class="text-center text-xs text-rose-500"
+          >
+            Debes rellenar todos los campos
+          </p>
         </article>
       </form>
 
       <NuxtLink
         to="/bookings"
-        class="flex items-center gap-x-2 mt-5 text-slate-700 hover:text-slate-800"
+        class="flex items-center gap-x-2 mt-3 p-2 text-slate-700 hover:text-slate-800"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -143,11 +147,60 @@
         Volver a reservas</NuxtLink
       >
     </section>
+
+    <section
+      v-if="editBookingError"
+      class="relative bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mt-5"
+      role="alert"
+    >
+      <span class="block xs:inline pr-5">{{ editBookingMessage }}</span>
+      <svg
+        @click="editBookingMessage = ''"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="absolute w-6 h-6 top-3 right-0.5 cursor-pointer"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    </section>
+
+    <section
+      v-if="editBookingMessage && !editBookingError"
+      class="relative bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mt-5"
+      role="alert"
+    >
+      <span class="block xs:inline pr-5">{{ editBookingMessage }}</span>
+      <svg
+        @click="editBookingMessage = ''"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="absolute w-6 h-6 top-3 right-0.5 cursor-pointer"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    </section>
   </main>
 </template>
 
 <script lang="ts" setup>
 const route = useRoute();
+
+const editBookingError = ref(false);
+const editBookingMessage = ref("");
 
 const { data } = await useFetch("/api/bookings/unique", {
   query: {
@@ -181,21 +234,43 @@ const getCurrentDateTime = () => {
 };
 
 const update = async () => {
-  const parsedDate = new Date(reservationDate.value);
-
-  await fetch("/api/bookings/update", {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      id: route.params.id,
-      user_name: name.value,
-      amount_diners: numberOfPeople.value,
-      booking_datetime: parsedDate,
-      status: status.value,
-      terrace: terraceOption.value,
-    }),
-  });
+  if (name.value) {
+    const parsedDate = new Date(reservationDate.value);
+    try {
+      const response = await fetch("/api/bookings/update", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: route.params.id,
+          user_name: name.value,
+          amount_diners: numberOfPeople.value,
+          booking_datetime: parsedDate,
+          status: status.value,
+          terrace: terraceOption.value,
+        }),
+      });
+      if (response.ok) {
+        const result = await response.json();
+        console.log(result);
+        if (result.statusCode === 200) {
+          editBookingError.value = false;
+          editBookingMessage.value = result.message;
+        } else {
+          editBookingError.value = true;
+          editBookingMessage.value = result.message;
+        }
+      } else {
+        console.error("Error:", response.status);
+        editBookingError.value = true;
+        editBookingMessage.value = "Error al editar la reserva";
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      editBookingError.value = true;
+      editBookingMessage.value = "Error al editar la reserva";
+    }
+  }
 };
 </script>
